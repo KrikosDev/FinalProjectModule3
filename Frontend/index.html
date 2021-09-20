@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;1,100&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
 </head>
 <body>
-    
+    <div id='BigDiv'>
+        <div class='mainDiv'>
+            <h1>Учёт моих расходов</h1>
+            <div class='divText'>
+                <div class='div1'>
+                    <p class='p'>Куда было потрачено:</p>
+                    <input type='text' id='add-task1' placeholder="Куда было потрачено:">
+                </div>
+                <div class='div2'>
+                    <p class='p'>Сколько было потрачено:</p>
+                    <input type='text' id='add-task2' placeholder="Сколько было потрачено:">
+                </div>
+                <button onclick="onClickButton()">Добавить</button>
+            </div>
+            <div id='itogDiv'>
+                <p id='Itog'>Итого: <p id='total'><p id='zero'> 0 </p></p> p. </p>
+            </div>
+        </div>
+        <div id='content-page'>
+
+        </div>
+    </div>
 </body>
 </html>
+<script src='script.js'></script>

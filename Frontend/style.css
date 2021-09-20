@@ -1,0 +1,114 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+h1 {
+    font-weight: 1;
+}
+.mainDiv {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+    
+}
+#BigDiv {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #DCEEFB;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+.div1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.div2 {
+    display: flex;
+    flex-direction: column;
+}
+.divText {
+    display: flex;
+    width: 100%;
+    justify-content:space-between;
+    align-items: flex-end;
+}
+button {
+    background-color: #75C6A8;
+    border-radius: 5px;
+    border-color: #75C6A8;
+    box-shadow: #75C6A8;
+    border-style: solid;
+    height: 36px;
+    font-size: small;
+    font-weight: lighter;
+}
+#add-task1 {
+    height: 30px;
+    border-radius: 5px;
+    border-color: white;
+    border-style: solid;
+    width: 300px;
+    padding-left: 20px;
+}
+#add-task2 {
+    height: 30px;
+    border-radius: 5px;
+    border-color: white;
+    border-style: solid;
+    padding-left: 20px;
+}
+.p {
+    margin: 0;
+    font-weight: 1;
+    font-size: small;
+    margin-bottom: 5px;
+}
+#itogDiv {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    font-weight: normal;
+    font-size:larger;
+}
+#itogDiv p {
+    margin: 2px;
+}
+::-webkit-input-placeholder {opacity: 0.3}
+img {
+    height: 20px;
+    width: 20px;
+    padding: 10px;
+}
+.task-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    /* background-color: turquoise; */
+}
+#content-page {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    /* justify-content: space-evenly; */
+}
+.img-container {
+    display: flex;
+    align-items: center;
+}
+.price {
+    margin-right: 50px ;
+}
+
