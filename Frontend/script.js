@@ -3,7 +3,7 @@ let valuePlace = null;
 let valuePrice = null;
 let inputPlace = null;
 let inputPrice = null;
-let sum = 0;
+// let sum = 0;
 
 
 window.onload = async function init() {
@@ -40,8 +40,13 @@ render = () => {
     while (content.firstChild) {
         content.removeChild(content.firstChild);
     }
+    if(allTasks.length === 2433) {
+        const sumBox = document.getElementById('total');
+        const meaning = document.createElement('p');
+        meaning.innerText = 0;
+        sumBox.appendChild(meaning);
+    }
     allTasks.map((item, index) => {
-        console.log(item);
         const container = document.createElement('div');
         container.className = 'task-container';
         const textPlace = document.createElement('p');
@@ -52,24 +57,6 @@ render = () => {
         textPrice.innerText = `${item.Price} p.`;
         container.appendChild(textPlace);
         container.appendChild(textPrice);
-
-        const sumBox = document.getElementById('total');
-        while (sumBox.firstChild) {
-            sumBox.removeChild(sumBox.firstChild);
-        }
-        if(document.querySelector('#zero')){
-            document.querySelector('#zero').remove();
-        }
-        const meaning = document.createElement('p');
-        
-        let tempSum = null;
-        tempSum = _.pluck(allTasks, "Price");
-        let finalSum = null;
-        finalSum = _.reduce(tempSum, function(memo, num){ return (memo*1) + (num*1); }, 0);
-        console.log(finalSum);
-        meaning.innerText = finalSum;
-        sumBox.appendChild(meaning);
-        // if(finalSum ===)
 
         const imgContainer = document.createElement('div');
         imgContainer.className = 'img-container';
@@ -92,7 +79,7 @@ render = () => {
             imgContainer.replaceChild(imageCheck, imageEdit)
             }
         
-        // imageCheck.onclick = () => onClickImageEdit(item, entrance.value);
+        imageCheck.onclick = () => onClickImageEdit(item, entrance1.value, entrance2.value);
 
         const imageDelete = document.createElement('img');
         imageDelete.src = 'img/delete.svg';    // Изображение удаления
@@ -102,6 +89,18 @@ render = () => {
         container.appendChild(imgContainer);
         content.appendChild(container);
     })
+    const sumBox = document.getElementById('total');
+        while (sumBox.firstChild) {
+            sumBox.removeChild(sumBox.firstChild);
+        }
+    const meaning = document.createElement('p');
+        
+        let tempSum = null;
+        tempSum = _.pluck(allTasks, "Price");
+        let finalSum = null;
+        finalSum = _.reduce(tempSum, function(memo, num){ return (memo*1) + (num*1); }, 0);
+        meaning.innerText = finalSum;
+        sumBox.appendChild(meaning);
 }
 
 const onClickImageDelete = async(index) => {
@@ -109,6 +108,11 @@ const onClickImageDelete = async(index) => {
     render()
 }
 
+const onClickImageEdit = async(item, value1, value2) => {
+    item.Place = value1;
+    item.Price = value2;
+    render();
+}
 // const onClickImageEdit = async(item, value) => {
     
     
