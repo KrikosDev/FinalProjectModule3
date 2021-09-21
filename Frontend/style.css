@@ -53,7 +53,7 @@ button {
     font-size: small;
     font-weight: lighter;
 }
-#add-task1 {
+#add-expenses1 {
     height: 30px;
     border-radius: 5px;
     border-color: white;
@@ -61,7 +61,7 @@ button {
     width: 300px;
     padding-left: 20px;
 }
-#add-task2 {
+#add-expenses2 {
     height: 30px;
     border-radius: 5px;
     border-color: white;
@@ -92,7 +92,7 @@ img {
     width: 20px;
     padding: 10px;
 }
-.task-container {
+.expenses-container {
     display: flex;
     width: 100%;
     justify-content: space-between;

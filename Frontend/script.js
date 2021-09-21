@@ -1,38 +1,63 @@
-let allTasks = [];
-let valuePlace = null;
-let valuePrice = null;
-let inputPlace = null;
+let allExpenses = [];
+let valueName = '';
+let valuePrice = '';
+let inputName = null;
 let inputPrice = null;
-// let sum = 0;
-
+const url = 'http://localhost:8000/'
 
 window.onload = async function init() {
-    inputPlace = document.getElementById('add-task1');
-    inputPlace.addEventListener('change', updateValue1);
-    inputPrice = document.getElementById('add-task2');
-    inputPrice.addEventListener('change', updateValue2);
+    inputName = document.getElementById('add-expenses1');
+    inputName.addEventListener('change', updateValueName);
+    inputPrice = document.getElementById('add-expenses2');
+    inputPrice.addEventListener('change', updateValuePrice);
+    const resp = await fetch('http://localhost:8000/allExpenses', {
+        method: 'GET'
+    });
+    let result = await resp.json(); 
+    allExpenses = result.data;
     render();
 }
 
 const onClickButton = async() => {
-    if (valuePlace !== '' || valuePlace !== '') {
-        allTasks.push({
-            Place: valuePlace,
-            Price: valuePrice
-        })
-    }
-    valuePlace = '';
-    valuePrice = null;
-    inputPlace.value = '';
+    if (valueName !== '' && valuePrice !== '') {
+        const resp = await fetch('http://localhost:8000/createExpenses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                name: valueName,
+                price: valuePrice
+            })
+        });
+    let result = await resp.json();
+    allExpenses = allExpenses.concat([result]);
+    valueName = '';
+    valuePrice = '';
+    inputName.value = null;
     inputPrice.value = null;
     render()
-}   
-
-const updateValue1 = (e) => {
-    valuePlace = e.target.value; // Вносим в valueInput, значение input 
+    }   
 }
-const updateValue2 = (e) => {
+const updateValueName = (e) => {
+    valueName = e.target.value; // Вносим в valueInput, значение input 
+}
+const updateValuePrice = (e) => {
     valuePrice = e.target.value; // Вносим в valueInput, значение input 
+}
+
+const getDate = (date) => {
+    const newDate = new Date(date);
+    let day = newDate.getDay(), month = newDate.getMonth() + 1;
+    const year = newDate.getFullYear();
+    if (month > 0 && month < 10) {
+        month = `0${month}`;
+    }
+    if (day > 0 && day < 10) {
+        day = `0${day}`;
+    }
+    return `${day}.${month}.${year}`
 }
 
 render = () => {
@@ -40,22 +65,31 @@ render = () => {
     while (content.firstChild) {
         content.removeChild(content.firstChild);
     }
-    if(allTasks.length === 2433) {
-        const sumBox = document.getElementById('total');
-        const meaning = document.createElement('p');
-        meaning.innerText = 0;
+    
+    const sumBox = document.getElementById('total');
+        while (sumBox.firstChild) {
+            sumBox.removeChild(sumBox.firstChild);
+        }
+    const meaning = document.createElement('p');
+        
+        let tempSum = null;
+        tempSum = _.pluck(allExpenses, "price");
+        let finalSum = null;
+        finalSum = _.reduce(tempSum, function(memo, num){ return (memo*1) + (num*1); }, 0);
+        meaning.innerText = finalSum;
         sumBox.appendChild(meaning);
-    }
-    allTasks.map((item, index) => {
+
+    allExpenses.map((item, index) => {
         const container = document.createElement('div');
-        container.className = 'task-container';
-        const textPlace = document.createElement('p');
+        container.className = 'expenses-container';
+        const textName = document.createElement('p');
         const textPrice = document.createElement('p');
-        textPlace.className = 'place';
+        const newDate = getDate(item.date);
+        textName.className = 'name';
         textPrice.className = 'price';
-        textPlace.innerText = `${index + 1}) ${item.Place}`;
-        textPrice.innerText = `${item.Price} p.`;
-        container.appendChild(textPlace);
+        textName.innerText = `${index + 1}) ${item.name} ${newDate}`;
+        textPrice.innerText = `${item.price} p.`;
+        container.appendChild(textName);
         container.appendChild(textPrice);
 
         const imgContainer = document.createElement('div');
@@ -72,13 +106,13 @@ render = () => {
         const entrance1 = document.createElement('input');
         const entrance2 = document.createElement('input');
         imageEdit.onclick = () => {
-            entrance1.value = item.Place;
-            entrance2.value = item.Price;
-            container.replaceChild(entrance1, textPlace);
+            entrance1.value = item.name;
+            entrance2.value = item.price;
+            container.replaceChild(entrance1, textName);
             imgContainer.replaceChild(entrance2, textPrice);
             imgContainer.replaceChild(imageCheck, imageEdit)
             }
-        
+
         imageCheck.onclick = () => onClickImageEdit(item, entrance1.value, entrance2.value);
 
         const imageDelete = document.createElement('img');
@@ -89,34 +123,34 @@ render = () => {
         container.appendChild(imgContainer);
         content.appendChild(container);
     })
-    const sumBox = document.getElementById('total');
-        while (sumBox.firstChild) {
-            sumBox.removeChild(sumBox.firstChild);
-        }
-    const meaning = document.createElement('p');
-        
-        let tempSum = null;
-        tempSum = _.pluck(allTasks, "Price");
-        let finalSum = null;
-        finalSum = _.reduce(tempSum, function(memo, num){ return (memo*1) + (num*1); }, 0);
-        meaning.innerText = finalSum;
-        sumBox.appendChild(meaning);
-}
-
-const onClickImageDelete = async(index) => {
-    allTasks = allTasks.filter((itm, ind) => ind !== index);    // Фильтруем массив и удаляем искомый элемент
-    render()
 }
 
 const onClickImageEdit = async(item, value1, value2) => {
-    item.Place = value1;
-    item.Price = value2;
+    const resp = await fetch('http://localhost:8000/updateExpenses', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+            name: value1,
+            price: value2,
+            id: item.id
+        })
+    });
+    const result = await resp.json();
+    allExpenses = result; 
     render();
 }
-// const onClickImageEdit = async(item, value) => {
-    
-    
-//     const result = await resp.json();
-//     allTasks = result; 
-//     render();
-// }
+
+const onClickImageDelete = async(index) => {
+    const resp = await fetch(url + `deleteExpenses?id=${allExpenses[index].id}`, {
+        method: 'DELETE',
+    });
+    const result = await resp.json();
+    allExpenses = result.data;
+    render();
+}
+
+
+
